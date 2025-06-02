@@ -39,8 +39,9 @@ jobs:
           file: Dockerfile.actions        # equivalent to "-f Dockerfile.actions"
           push: true
           tags: ghcr.io/pcoder7/spider-puredns-actions:latest
-          no-cache: true                   # equivalent to "--no-cache"
-
+          no-cache: true            
+      
+      # 5) VERIFY REMOTE IMAGE EXISTS
       - name: Verify tools exist in final Docker image
         run: |
           set -e
@@ -53,10 +54,10 @@ jobs:
           echo "🔍 Verifying subfinder..."
           docker run --rm --entrypoint subfinder ghcr.io/pcoder7/spider-puredns-actions:latest -version
 
-         echo "🔍 Verifying gowitness..."
-         docker run --rm --entrypoint gowitness ghcr.io/pcoder7/spider-puredns-actions:latest --version
+          echo "🔍 Verifying gowitness..."
+          docker run --rm --entrypoint gowitness ghcr.io/pcoder7/spider-puredns-actions:latest --version
 
-         echo "🔍 Verifying parallel..."
-         docker run --rm --entrypoint parallel ghcr.io/pcoder7/spider-puredns-actions:latest --version
+          echo "🔍 Verifying parallel..."
+          docker run --rm --entrypoint parallel ghcr.io/pcoder7/spider-puredns-actions:latest --version
 
-         echo "✅ All tools verified inside container"          
+          echo "✅ All tools verified inside container"          

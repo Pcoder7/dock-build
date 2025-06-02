@@ -55,9 +55,9 @@ jobs:
           docker run --rm --entrypoint subfinder ghcr.io/pcoder7/spider-puredns-actions:latest -version
 
           echo "🔍 Verifying gowitness..."
-          docker run --rm --entrypoint gowitness ghcr.io/pcoder7/spider-puredns-actions:latest --version
+          docker run --rm --entrypoint gowitness ghcr.io/pcoder7/spider-puredns-actions:latest --help
 
           echo "🔍 Verifying parallel..."
-          docker run --rm --entrypoint parallel ghcr.io/pcoder7/spider-puredns-actions:latest --version
+          docker run --rm --entrypoint parallel ghcr.io/pcoder7/spider-puredns-actions:latest --help
 
           echo "✅ All tools verified inside container"          

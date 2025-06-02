@@ -61,7 +61,7 @@ RUN go install github.com/d3mondev/puredns/v2@latest \
     && go install github.com/trickest/dsieve@latest \
     && go install github.com/trickest/mkpath@latest \
     && go install github.com/trickest/mksub@latest \
-    && go install -v github.com/glitchedgitz/cook/v2/cmd/cook@latest
+    && go install -v github.com/glitchedgitz/cook/v2/cmd/cook@latest \
     && go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest \
     && go install github.com/projectdiscovery/alterx/cmd/alterx@latest \
     && go install github.com/Elsfa7-110/gotator-solved@latest \

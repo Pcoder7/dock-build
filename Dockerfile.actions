@@ -85,8 +85,6 @@ RUN go install github.com/d3mondev/puredns/v2@latest \
 # 5. Install dnsgen
 RUN python3 -m pip install dnsgen
 
-#6. Install amass
-RUN go install github.com/OWASP/Amass/v3/...@v3.23.3
 
 # 6. Install regulator
 RUN mkdir -p /logs \

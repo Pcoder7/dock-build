@@ -97,6 +97,8 @@ RUN go install github.com/d3mondev/puredns/v2@latest \
 # 5. Install dnsgen
 RUN python3 -m pip install dnsgen
 
+
+
 # 6. Install amass
 RUN curl -LO https://github.com/owasp-amass/amass/releases/download/v3.23.3/amass_Linux_amd64.zip \
     && unzip amass_Linux_amd64.zip \
@@ -110,7 +112,14 @@ RUN mkdir -p /logs \
     && cd /opt/regulator \
     && pip3 install -r requirements.txt \
     && cd / 
-  
+
+# Install gf-patterns
+RUN git clone https://github.com/1ndianl33t/Gf-Patterns \
+    && mkdir -p ~/.gf \
+    && cp -r $GOPATH/pkg/mod/github.com/tomnomnom/gf@v0.0.0-20200618134122-dcd4c361f9f5/examples ~/.gf \
+    && mv ~/Gf-Patterns/*.json ~/.gf
+
+
 # 8. Install waymore
 RUN python3 -m pip install waymore
 

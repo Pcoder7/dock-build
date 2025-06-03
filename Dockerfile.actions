@@ -61,6 +61,11 @@ RUN go install github.com/d3mondev/puredns/v2@latest \
     && go install github.com/trickest/dsieve@latest \
     && go install github.com/trickest/mkpath@latest \
     && go install github.com/trickest/mksub@latest \
+    && go install -v github.com/projectdiscovery/cdncheck/cmd/cdncheck@latest \
+    && go install -v github.com/projectdiscovery/notify/cmd/notify@latest \
+    && go install github.com/tomnomnom/assetfinder@latest \
+    && go install -v github.com/s0md3v/smap/cmd/smap@latest \
+    && go install github.com/ImAyrix/cut-cdn@latest \
     && go install -v github.com/glitchedgitz/cook/v2/cmd/cook@latest \
     && go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest \
     && go install github.com/projectdiscovery/alterx/cmd/alterx@latest \
@@ -90,6 +95,12 @@ RUN go install github.com/d3mondev/puredns/v2@latest \
 
 # 5. Install dnsgen
 RUN python3 -m pip install dnsgen
+
+# 6. Install amass
+RUN curl -LO https://github.com/owasp-amass/amass/releases/download/v3.23.3/amass_Linux_amd64.zip \
+    && unzip amass_Linux_amd64.zip \
+    && mv amass_Linux_amd64/amass /usr/local/bin/ \
+    && rm -rf amass_Linux_amd64.zip* 
 
 
 # 6. Install regulator

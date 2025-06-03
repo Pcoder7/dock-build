@@ -114,10 +114,10 @@ RUN mkdir -p /logs \
     && cd / 
 
 # Install gf-patterns
-RUN git clone https://github.com/1ndianl33t/Gf-Patterns \
-    && mkdir -p ~/.gf \
-    && cp -r $GOPATH/pkg/mod/github.com/tomnomnom/gf@v0.0.0-20200618134122-dcd4c361f9f5/examples ~/.gf \
-    && mv ~/Gf-Patterns/*.json ~/.gf
+RUN git clone https://github.com/1ndianl33t/Gf-Patterns /opt/Gf-Patterns \
+    && mkdir -p /root/.gf \
+    && cp -r /root/go/pkg/mod/github.com/tomnomnom/gf*/examples/* /root/.gf/ \
+    && cp -r /opt/Gf-Patterns/*.json /root/.gf/
 
 
 # 8. Install waymore

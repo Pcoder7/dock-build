@@ -56,6 +56,7 @@ RUN git clone https://github.com/blechschmidt/massdns.git /opt/massdns \
     && make install \
     && cd / 
 
+
 # 4. Install Tools
 RUN go install github.com/d3mondev/puredns/v2@latest \
     && go install github.com/trickest/dsieve@latest \
@@ -103,13 +104,15 @@ RUN curl -LO https://github.com/owasp-amass/amass/releases/download/v3.23.3/amas
     && rm -rf amass_Linux_amd64.zip* 
 
 
-# 6. Install regulator
+# 7. Install regulator
 RUN mkdir -p /logs \
     && git clone https://github.com/cramppet/regulator.git /opt/regulator \
     && cd /opt/regulator \
     && pip3 install -r requirements.txt \
     && cd / 
   
+# 8. Install waymore
+RUN python3 -m pip install waymore
 
 # Keep container alive for GitHub Actions
 ENTRYPOINT ["sleep", "infinity"]

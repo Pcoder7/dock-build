@@ -126,7 +126,8 @@ RUN python3 -m pip install urless
 # 10 Install URO
 RUN pipx install uro
 
-
+# Optional: Verify uro is installed
+RUN uro --help
 
 # Keep container alive for GitHub Actions
 ENTRYPOINT ["sleep", "infinity"]

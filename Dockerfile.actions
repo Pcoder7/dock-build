@@ -123,17 +123,44 @@ RUN python3 -m pip install waymore
 # 9. Install Urless
 RUN python3 -m pip install urless
 
-# 10 Install URO
+
+# Install pipx itself
+RUN python3 -m pip install --no-cache-dir pipx
+
+# Make sure pipx’s directories exist (share/pipx/venvs and bin)
+RUN mkdir -p /root/.local/bin /root/.local/share/pipx/venvs
+
+#########################################
+# 2) Use pipx to install uro into a venv
+#########################################
 RUN pipx install uro
 
-# Optional: Verify uro is installed
-RUN pipx list && \
-    ls -l /root/.local/bin/uro && \
-    ls -l /root/.local/pipx/venvs/uro/bin/uro
+#####################################################
+# 3) Now list out exactly where pipx put things (FIXED)
+#####################################################
+RUN echo "===== pipx list output =====" && \
+    pipx list && echo && \
+    \
+    echo "===== /root/.local/bin contents =====" && \
+    ls -l /root/.local/bin && echo && \
+    \
+    echo "===== /root/.local/share/pipx/venvs/uro/bin =====" && \
+    ls -l /root/.local/share/pipx/venvs/uro/bin && echo && \
+    \
+    echo "===== Verify running uro from the venv path =====" && \
+    /root/.local/share/pipx/venvs/uro/bin/uro --help || echo "FAILED to run uro from venv" && echo && \
+    \
+    echo "===== Verify via pipx-run =====" && \
+    pipx run uro --help || echo "pipx run uro failed"
 
+###########################################
+# 4) Expose /root/.local/bin on PATH so that
+#    the shim (/root/.local/bin/uro) can be used
+###########################################
 ENV PATH="/root/.local/bin:${PATH}"
 
-RUN /root/.local/pipx/venvs/uro/bin/uro --help
+# 5) Now this will succeed since /root/.local/bin is on PATH
+RUN uro --help
 
 # Keep container alive for GitHub Actions
 ENTRYPOINT ["sleep", "infinity"]

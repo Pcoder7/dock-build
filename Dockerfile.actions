@@ -127,7 +127,13 @@ RUN python3 -m pip install urless
 RUN pipx install uro
 
 # Optional: Verify uro is installed
-RUN uro --help
+RUN pipx list && \
+    ls -l /root/.local/bin/uro && \
+    ls -l /root/.local/pipx/venvs/uro/bin/uro
+
+ENV PATH="/root/.local/bin:${PATH}"
+
+RUN /root/.local/pipx/venvs/uro/bin/uro --help
 
 # Keep container alive for GitHub Actions
 ENTRYPOINT ["sleep", "infinity"]

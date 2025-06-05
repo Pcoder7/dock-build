@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       python3 python3-pip python3-venv python3-distutils python3-dev pkg-config libdatrie-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install pipx using pip
+RUN python3 -m pip install --no-cache-dir pipx && \
+    pipx ensurepath
+
 # 2. Install GitHub CLI (gh)
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
       | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -116,14 +120,11 @@ RUN mkdir -p /logs \
 # 8. Install waymore
 RUN python3 -m pip install waymore
 
-# 9. Install gf-patterns
-RUN git clone https://github.com/tomnomnom/gf /opt/gf \
-    && git clone https://github.com/1ndianl33t/Gf-Patterns /opt/Gf-Patterns \
-    && cd /opt/gf && go install \
-    && mkdir -p /root/.gf \
-    && cp -r /opt/gf/examples/* /root/.gf/ \
-    && cp -r /opt/Gf-Patterns/*.json /root/.gf/ \
-    && cd /
+# 9. Install Urless
+RUN python3 -m pip install urless
+
+# 10 Install URO
+RUN pipx install uro
 
 
 

@@ -136,7 +136,8 @@ RUN mkdir -p /root/.local/bin /root/.local/share/pipx/venvs
 # 2) Use pipx to install uro into a venv
 #########################################
 RUN pipx install uro \
-    pipx install bbot 
+    pipx install bbot \
+    pipx install webcap
     
 
 #####################################################
@@ -166,6 +167,9 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 # 5) Now this will succeed since /root/.local/bin is on PATH
 RUN uro --help 
+
+# 6) Now this will succeed since /root/.local/bin is on PATH
+RUN bbot --help 
 
 # 6) Now this will succeed since /root/.local/bin is on PATH
 RUN bbot --help 

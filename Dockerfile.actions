@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install pipx using pip
 RUN python3 -m pip install --no-cache-dir pipx && \
-    pipx ensurepath
+    pipx ensurepath 
+
+    
 
 # 2. Install GitHub CLI (gh)
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
@@ -133,7 +135,9 @@ RUN mkdir -p /root/.local/bin /root/.local/share/pipx/venvs
 #########################################
 # 2) Use pipx to install uro into a venv
 #########################################
-RUN pipx install uro
+RUN pipx install uro \
+    pipx install bbot 
+    
 
 #####################################################
 # 3) Now list out exactly where pipx put things (FIXED)
@@ -152,6 +156,7 @@ RUN echo "===== pipx list output =====" && \
     \
     echo "===== Verify via pipx-run =====" && \
     pipx run uro --help || echo "pipx run uro failed"
+   
 
 ###########################################
 # 4) Expose /root/.local/bin on PATH so that
@@ -160,7 +165,25 @@ RUN echo "===== pipx list output =====" && \
 ENV PATH="/root/.local/bin:${PATH}"
 
 # 5) Now this will succeed since /root/.local/bin is on PATH
-RUN uro --help
+RUN uro --help 
+
+# 6) Now this will succeed since /root/.local/bin is on PATH
+RUN bbot --help 
+
+# 7) OneForAll download
+RUN git clone https://github.com/shmilylty/OneForAll.git /opt/OneForAll
+
+# set working directory
+WORKDIR /opt/OneForAll
+
+# upgrade pip, setuptools, wheel and install Python deps
+RUN python3 -m pip install -U pip setuptools wheel \
+ && pip3 install -r requirements.txt
+
+# create a wrapper script so `oneforall` is on PATH
+RUN printf '#!/usr/bin/env bash\nexec python3 /opt/OneForAll/oneforall.py "$@"' \
+    > /usr/local/bin/oneforall \
+ && chmod +x /usr/local/bin/oneforall
 
 # Keep container alive for GitHub Actions
 ENTRYPOINT ["sleep", "infinity"]

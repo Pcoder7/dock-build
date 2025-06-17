@@ -135,9 +135,8 @@ RUN mkdir -p /root/.local/bin /root/.local/share/pipx/venvs
 #########################################
 # 2) Use pipx to install uro into a venv
 #########################################
-RUN pipx install uro \
-    pipx install bbot \
-    pipx install webcap
+RUN pipx install uro 
+
     
 
 #####################################################
@@ -168,11 +167,34 @@ ENV PATH="/root/.local/bin:${PATH}"
 # 5) Now this will succeed since /root/.local/bin is on PATH
 RUN uro --help 
 
+
+# Use pipx to install uro into a venv
+RUN pipx install bbot \ 
+    pipx install webcap
+
+#####################################################
+Now list out exactly where pipx put things (FIXED)
+#####################################################
+RUN echo "===== pipx list output =====" && \
+    pipx list && echo && \
+    \
+    echo "===== /root/.local/bin contents =====" && \
+    ls -l /root/.local/bin && echo && \
+    \
+    echo "===== /root/.local/share/pipx/venvs/bbot/bin =====" && \
+    ls -l /root/.local/share/pipx/venvs/bbot/bin && echo && \
+    \
+    echo "===== Verify running uro from the venv path =====" && \
+    /root/.local/share/pipx/venvs/bbot/bin/bbot--help || echo "FAILED to run bbot from venv" && echo && \
+    \
+    echo "===== Verify via pipx-run =====" && \
+    pipx run bbot --help || echo "pipx run bbot failed"
+
 # 6) Now this will succeed since /root/.local/bin is on PATH
 RUN bbot --help 
 
 # 6) Now this will succeed since /root/.local/bin is on PATH
-RUN bbot --help 
+RUN webcap --help 
 
 # 7) OneForAll download
 RUN git clone https://github.com/shmilylty/OneForAll.git /opt/OneForAll

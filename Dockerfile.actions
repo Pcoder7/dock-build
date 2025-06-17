@@ -173,7 +173,7 @@ RUN pipx install bbot \
     pipx install webcap
 
 #####################################################
-Now list out exactly where pipx put things (FIXED)
+# Now list out exactly where pipx put things (FIXED)
 #####################################################
 RUN echo "===== pipx list output =====" && \
     pipx list && echo && \

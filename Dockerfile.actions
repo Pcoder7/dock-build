@@ -189,5 +189,20 @@ RUN printf '#!/usr/bin/env bash\nexec python3 /opt/OneForAll/oneforall.py "$@"' 
     > /usr/local/bin/oneforall \
  && chmod +x /usr/local/bin/oneforall
 
+# clone Interlace into /opt
+RUN git clone https://github.com/codingo/Interlace.git /opt/Interlace
+
+# set working directory
+WORKDIR /opt/Interlace
+
+# install via setup.py
+RUN python3 -m pip install -U pip setuptools wheel \
+ && python3 setup.py install
+
+# if Interlace does not install an 'interlace' entrypoint, add this wrapper:
+RUN printf '#!/usr/bin/env bash\nexec python3 /opt/Interlace/Interlace/interlace.py "$@"' \
+    > /usr/local/bin/interlace \
+ && chmod +x /usr/local/bin/interlace
+
 # Keep container alive for GitHub Actions
 ENTRYPOINT ["sleep", "infinity"]

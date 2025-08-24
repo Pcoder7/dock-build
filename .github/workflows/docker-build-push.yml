@@ -18,7 +18,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2) LOG IN TO GHCR
+      - name: Show effective permissions
+        run: |
+            
+            echo "Permissions in workflow:"
+            jq . permissions < $GITHUB_ENV || true
+
+      - name: Verify authenticated user (GitHub API)
+        env:
+           TOKEN: ${{ secrets.GHCR_PAT }}
+        run: |
+            
+            # Will print JSON about the user the token belongs to
+            curl -sH "Authorization: Bearer $TOKEN" https://api.github.com/user | jq '{login, id, type}'
+
+      - name: Attempt docker login (debug)
+        env:
+          TOKEN: ${{ secrets.GHCR_PAT }}
+        run: |
+              
+              set -x
+              echo "$TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+               # 2) LOG IN TO GHCR
+      
       - name: Log in to GitHub Container Registry (GHCR)
         uses: docker/login-action@v3
         with:
